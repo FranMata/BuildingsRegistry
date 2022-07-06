@@ -41,6 +41,7 @@ CREATE TABLE buildings(
 	CantonCode INT,
 	AreaCode INT,
 	PropertyStatus INT,
+	Expiration DATE,
 
 	FOREIGN KEY (ProvinceCode) REFERENCES province(ProvinceCode),
 	FOREIGN KEY (CantonCode) REFERENCES canton(CantonCode),
@@ -71,7 +72,11 @@ CREATE TABLE servicesAssigned(
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	BuildingId INT,
 	ServiceId INT,
+	Expiration DATE,
 
 	FOREIGN KEY (BuildingId) REFERENCES  buildings(Id),
 	FOREIGN KEY (ServiceId) REFERENCES  publicServices(Id)
 );
+
+ALTER TABLE servicesAssigned 
+ADD Expiration DATE
