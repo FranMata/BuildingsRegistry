@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="buildings_registryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaCode" Type="int" />
+          <Property Name="CantonCode" Type="int" />
+          <Property Name="AreaName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="buildings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BuildingName" Type="varchar" MaxLength="200" />
+          <Property Name="Capacity" Type="int" />
+          <Property Name="ProvinceCode" Type="int" />
+          <Property Name="CantonCode" Type="int" />
+          <Property Name="AreaCode" Type="int" />
+          <Property Name="PropertyStatus" Type="int" />
+          <Property Name="Expiration" Type="date" />
+        </EntityType>
+        <EntityType Name="canton">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CantonCode" Type="int" />
+          <Property Name="ProvinceCode" Type="int" />
+          <Property Name="CantonName" Type="varchar" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="propertyStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="province">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProvinceCode" Type="int" />
+          <Property Name="ProvinceName" Type="varchar" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="publicServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameService" Type="varchar" MaxLength="200" />
+          <Property Name="TypeService" Type="int" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="servicesAssigned">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BuildingId" Type="int" />
+          <Property Name="ServiceId" Type="int" />
+          <Property Name="Expiration" Type="date" />
+        </EntityType>
+        <EntityType Name="serviceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="unit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="varchar" MaxLength="80" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__area__CantonCode__30F848ED' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__area__CantonCode__30F848ED" />-->
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__buildings__AreaC__37A5467C' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__buildings__AreaC__37A5467C" />-->
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__buildings__Canto__36B12243' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__buildings__Canto__36B12243" />-->
+        <Association Name="FK__buildings__Prope__38996AB5">
+          <End Role="propertyStatus" Type="Self.propertyStatus" Multiplicity="0..1" />
+          <End Role="buildings" Type="Self.buildings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="propertyStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="buildings">
+              <PropertyRef Name="PropertyStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__buildings__Provi__35BCFE0A' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__buildings__Provi__35BCFE0A" />-->
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__canton__Province__2D27B809' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__canton__Province__2D27B809" />-->
+        <Association Name="FK__publicSer__TypeS__3F466844">
+          <End Role="unit" Type="Self.unit" Multiplicity="0..1" />
+          <End Role="publicServices" Type="Self.publicServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="publicServices">
+              <PropertyRef Name="TypeService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__servicesA__Build__4222D4EF">
+          <End Role="buildings" Type="Self.buildings" Multiplicity="0..1" />
+          <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="buildings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="servicesAssigned">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__servicesA__Servi__4316F928">
+          <End Role="publicServices" Type="Self.publicServices" Multiplicity="0..1" />
+          <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publicServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="servicesAssigned">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="buildings_registryModelStoreContainer">
+          <EntitySet Name="area" EntityType="Self.area" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="buildings" EntityType="Self.buildings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="canton" EntityType="Self.canton" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="propertyStatus" EntityType="Self.propertyStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="province" EntityType="Self.province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="publicServices" EntityType="Self.publicServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="servicesAssigned" EntityType="Self.servicesAssigned" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="serviceType" EntityType="Self.serviceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="unit" EntityType="Self.unit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__buildings__Prope__38996AB5" Association="Self.FK__buildings__Prope__38996AB5">
+            <End Role="propertyStatus" EntitySet="propertyStatus" />
+            <End Role="buildings" EntitySet="buildings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__publicSer__TypeS__3F466844" Association="Self.FK__publicSer__TypeS__3F466844">
+            <End Role="unit" EntitySet="unit" />
+            <End Role="publicServices" EntitySet="publicServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__servicesA__Build__4222D4EF" Association="Self.FK__servicesA__Build__4222D4EF">
+            <End Role="buildings" EntitySet="buildings" />
+            <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+          </AssociationSet>
+          <AssociationSet Name="FK__servicesA__Servi__4316F928" Association="Self.FK__servicesA__Servi__4316F928">
+            <End Role="publicServices" EntitySet="publicServices" />
+            <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="buildings_registryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaCode" Type="Int32" />
+          <Property Name="CantonCode" Type="Int32" />
+          <Property Name="AreaName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="buildings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BuildingName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Capacity" Type="Int32" />
+          <Property Name="ProvinceCode" Type="Int32" />
+          <Property Name="CantonCode" Type="Int32" />
+          <Property Name="AreaCode" Type="Int32" />
+          <Property Name="PropertyStatus" Type="Int32" />
+          <Property Name="Expiration" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="propertyStatus1" Relationship="Self.FK__buildings__Prope__38996AB5" FromRole="buildings" ToRole="propertyStatus" />
+          <NavigationProperty Name="servicesAssigned" Relationship="Self.FK__servicesA__Build__4222D4EF" FromRole="buildings" ToRole="servicesAssigned" />
+        </EntityType>
+        <EntityType Name="canton">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CantonCode" Type="Int32" />
+          <Property Name="ProvinceCode" Type="Int32" />
+          <Property Name="CantonName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="propertyStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="buildings" Relationship="Self.FK__buildings__Prope__38996AB5" FromRole="propertyStatus" ToRole="buildings" />
+        </EntityType>
+        <EntityType Name="province">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProvinceCode" Type="Int32" />
+          <Property Name="ProvinceName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="publicServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameService" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TypeService" Type="Int32" />
+          <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="unit" Relationship="Self.FK__publicSer__TypeS__3F466844" FromRole="publicServices" ToRole="unit" />
+          <NavigationProperty Name="servicesAssigned" Relationship="Self.FK__servicesA__Servi__4316F928" FromRole="publicServices" ToRole="servicesAssigned" />
+        </EntityType>
+        <EntityType Name="servicesAssigned">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BuildingId" Type="Int32" />
+          <Property Name="ServiceId" Type="Int32" />
+          <Property Name="Expiration" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="buildings" Relationship="Self.FK__servicesA__Build__4222D4EF" FromRole="servicesAssigned" ToRole="buildings" />
+          <NavigationProperty Name="publicServices" Relationship="Self.FK__servicesA__Servi__4316F928" FromRole="servicesAssigned" ToRole="publicServices" />
+        </EntityType>
+        <EntityType Name="serviceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="unit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="publicServices" Relationship="Self.FK__publicSer__TypeS__3F466844" FromRole="unit" ToRole="publicServices" />
+        </EntityType>
+        <Association Name="FK__buildings__Prope__38996AB5">
+          <End Role="propertyStatus" Type="Self.propertyStatus" Multiplicity="0..1" />
+          <End Role="buildings" Type="Self.buildings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="propertyStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="buildings">
+              <PropertyRef Name="PropertyStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__servicesA__Build__4222D4EF">
+          <End Role="buildings" Type="Self.buildings" Multiplicity="0..1" />
+          <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="buildings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="servicesAssigned">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__publicSer__TypeS__3F466844">
+          <End Role="unit" Type="Self.unit" Multiplicity="0..1" />
+          <End Role="publicServices" Type="Self.publicServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="publicServices">
+              <PropertyRef Name="TypeService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__servicesA__Servi__4316F928">
+          <End Role="publicServices" Type="Self.publicServices" Multiplicity="0..1" />
+          <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publicServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="servicesAssigned">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="buildings_registryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="area" EntityType="Self.area" />
+          <EntitySet Name="buildings" EntityType="Self.buildings" />
+          <EntitySet Name="canton" EntityType="Self.canton" />
+          <EntitySet Name="propertyStatus" EntityType="Self.propertyStatus" />
+          <EntitySet Name="province" EntityType="Self.province" />
+          <EntitySet Name="publicServices" EntityType="Self.publicServices" />
+          <EntitySet Name="servicesAssigned" EntityType="Self.servicesAssigned" />
+          <EntitySet Name="serviceType" EntityType="Self.serviceType" />
+          <EntitySet Name="unit" EntityType="Self.unit" />
+          <AssociationSet Name="FK__buildings__Prope__38996AB5" Association="Self.FK__buildings__Prope__38996AB5">
+            <End Role="propertyStatus" EntitySet="propertyStatus" />
+            <End Role="buildings" EntitySet="buildings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__servicesA__Build__4222D4EF" Association="Self.FK__servicesA__Build__4222D4EF">
+            <End Role="buildings" EntitySet="buildings" />
+            <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+          </AssociationSet>
+          <AssociationSet Name="FK__publicSer__TypeS__3F466844" Association="Self.FK__publicSer__TypeS__3F466844">
+            <End Role="unit" EntitySet="unit" />
+            <End Role="publicServices" EntitySet="publicServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__servicesA__Servi__4316F928" Association="Self.FK__servicesA__Servi__4316F928">
+            <End Role="publicServices" EntitySet="publicServices" />
+            <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="buildings_registryModelStoreContainer" CdmEntityContainer="buildings_registryEntities">
+          <EntitySetMapping Name="area">
+            <EntityTypeMapping TypeName="buildings_registryModel.area">
+              <MappingFragment StoreEntitySet="area">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="CantonCode" ColumnName="CantonCode" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="buildings">
+            <EntityTypeMapping TypeName="buildings_registryModel.buildings">
+              <MappingFragment StoreEntitySet="buildings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="ProvinceCode" ColumnName="ProvinceCode" />
+                <ScalarProperty Name="CantonCode" ColumnName="CantonCode" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="PropertyStatus" ColumnName="PropertyStatus" />
+                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="canton">
+            <EntityTypeMapping TypeName="buildings_registryModel.canton">
+              <MappingFragment StoreEntitySet="canton">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CantonCode" ColumnName="CantonCode" />
+                <ScalarProperty Name="ProvinceCode" ColumnName="ProvinceCode" />
+                <ScalarProperty Name="CantonName" ColumnName="CantonName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="propertyStatus">
+            <EntityTypeMapping TypeName="buildings_registryModel.propertyStatus">
+              <MappingFragment StoreEntitySet="propertyStatus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="province">
+            <EntityTypeMapping TypeName="buildings_registryModel.province">
+              <MappingFragment StoreEntitySet="province">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProvinceCode" ColumnName="ProvinceCode" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="publicServices">
+            <EntityTypeMapping TypeName="buildings_registryModel.publicServices">
+              <MappingFragment StoreEntitySet="publicServices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NameService" ColumnName="NameService" />
+                <ScalarProperty Name="TypeService" ColumnName="TypeService" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="servicesAssigned">
+            <EntityTypeMapping TypeName="buildings_registryModel.servicesAssigned">
+              <MappingFragment StoreEntitySet="servicesAssigned">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="serviceType">
+            <EntityTypeMapping TypeName="buildings_registryModel.serviceType">
+              <MappingFragment StoreEntitySet="serviceType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="unit">
+            <EntityTypeMapping TypeName="buildings_registryModel.unit">
+              <MappingFragment StoreEntitySet="unit">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
