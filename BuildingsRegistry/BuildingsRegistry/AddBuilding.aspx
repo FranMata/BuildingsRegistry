@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Añadir edificio" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddBuilding.aspx.cs" Inherits="BuildingsRegistry.AddBuilding" %>
+﻿<%@ Page Async="true" Title="Añadir edificio" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddBuilding.aspx.cs" Inherits="BuildingsRegistry.AddBuilding" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <p>
         &nbsp;</p>
@@ -16,17 +16,17 @@
 </p>
     <p>Provincia donde se ubica (seleccionar de lista)</p>
 <p>
-    <asp:DropDownList ID="ProvinceDD" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+    <asp:DropDownList ID="ProvinceDD" runat="server" OnSelectedIndexChanged="ProvinceDD_SelectedValueChangedAsync" AutoPostBack="true">
     </asp:DropDownList>
     </p>
     <p>Cantón donde se ubica (seleccionar de lista)</p>
 <p>
-    <asp:DropDownList ID="CantonDD" runat="server">
+    <asp:DropDownList ID="CantonDD" runat="server" Enabled="False" AutoPostBack="true" OnSelectedIndexChanged="CantonDD_SelectedIndexChanged">
     </asp:DropDownList>
     </p>
     <p>Distrito donde se ubica (seleccionar de lista.)</p>
 <p>
-    <asp:DropDownList ID="AreaDD" runat="server">
+    <asp:DropDownList ID="AreaDD" runat="server" Enabled="False">
     </asp:DropDownList>
     </p>
     <p>Es adquirido el edificio o es alquilado.</p>
@@ -37,6 +37,6 @@
     <p>
         &nbsp;</p>
     <p>
-        <asp:Button ID="SaveBuildingB" runat="server" Text="Guardar" OnClick="SaveBuildingB_Click" />
+        <asp:Button ID="SaveBuildingB" runat="server" Text="Guardar" OnClick="SaveBuildingB_ClickAsync" />
     </p>
 </asp:Content>
