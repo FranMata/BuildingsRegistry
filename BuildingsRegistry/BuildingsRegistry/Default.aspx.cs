@@ -11,7 +11,8 @@ namespace BuildingsRegistry
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //Response.Redirect("AddBuilding.aspx");
         }
+
     }
 }

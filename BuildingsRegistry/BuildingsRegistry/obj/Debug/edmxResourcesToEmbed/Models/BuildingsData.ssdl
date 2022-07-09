@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="buildings_registryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="area">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AreaCode" Type="int" />
+    <Property Name="CantonCode" Type="int" />
+    <Property Name="AreaName" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="buildings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BuildingName" Type="varchar" MaxLength="200" />
+    <Property Name="Capacity" Type="int" />
+    <Property Name="ProvinceCode" Type="int" />
+    <Property Name="CantonCode" Type="int" />
+    <Property Name="AreaCode" Type="int" />
+    <Property Name="PropertyStatus" Type="int" />
+    <Property Name="Expiration" Type="date" />
+  </EntityType>
+  <EntityType Name="canton">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CantonCode" Type="int" />
+    <Property Name="ProvinceCode" Type="int" />
+    <Property Name="CantonName" Type="varchar" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="propertyStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="province">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProvinceCode" Type="int" />
+    <Property Name="ProvinceName" Type="varchar" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="publicServices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameService" Type="varchar" MaxLength="200" />
+    <Property Name="TypeService" Type="int" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="servicesAssigned">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BuildingId" Type="int" />
+    <Property Name="ServiceId" Type="int" />
+    <Property Name="Expiration" Type="date" />
+  </EntityType>
+  <EntityType Name="serviceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="unit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UnitName" Type="varchar" MaxLength="80" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__area__CantonCode__30F848ED' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__area__CantonCode__30F848ED" />-->
+  <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__buildings__AreaC__37A5467C' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__buildings__AreaC__37A5467C" />-->
+  <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__buildings__Canto__36B12243' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__buildings__Canto__36B12243" />-->
+  <Association Name="FK__buildings__Prope__38996AB5">
+    <End Role="propertyStatus" Type="Self.propertyStatus" Multiplicity="0..1" />
+    <End Role="buildings" Type="Self.buildings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="propertyStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="buildings">
+        <PropertyRef Name="PropertyStatus" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__buildings__Provi__35BCFE0A' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__buildings__Provi__35BCFE0A" />-->
+  <!--Errores durante la generación:
+advertencia 6035: La relación 'FK__canton__Province__2D27B809' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK__canton__Province__2D27B809" />-->
+  <Association Name="FK__publicSer__TypeS__3F466844">
+    <End Role="unit" Type="Self.unit" Multiplicity="0..1" />
+    <End Role="publicServices" Type="Self.publicServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="unit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="publicServices">
+        <PropertyRef Name="TypeService" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__servicesA__Build__4222D4EF">
+    <End Role="buildings" Type="Self.buildings" Multiplicity="0..1" />
+    <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="buildings">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="servicesAssigned">
+        <PropertyRef Name="BuildingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__servicesA__Servi__4316F928">
+    <End Role="publicServices" Type="Self.publicServices" Multiplicity="0..1" />
+    <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="publicServices">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="servicesAssigned">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="buildings_registryModelStoreContainer">
+    <EntitySet Name="area" EntityType="Self.area" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="buildings" EntityType="Self.buildings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="canton" EntityType="Self.canton" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="propertyStatus" EntityType="Self.propertyStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="province" EntityType="Self.province" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="publicServices" EntityType="Self.publicServices" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="servicesAssigned" EntityType="Self.servicesAssigned" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="serviceType" EntityType="Self.serviceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="unit" EntityType="Self.unit" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__buildings__Prope__38996AB5" Association="Self.FK__buildings__Prope__38996AB5">
+      <End Role="propertyStatus" EntitySet="propertyStatus" />
+      <End Role="buildings" EntitySet="buildings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__publicSer__TypeS__3F466844" Association="Self.FK__publicSer__TypeS__3F466844">
+      <End Role="unit" EntitySet="unit" />
+      <End Role="publicServices" EntitySet="publicServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK__servicesA__Build__4222D4EF" Association="Self.FK__servicesA__Build__4222D4EF">
+      <End Role="buildings" EntitySet="buildings" />
+      <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+    </AssociationSet>
+    <AssociationSet Name="FK__servicesA__Servi__4316F928" Association="Self.FK__servicesA__Servi__4316F928">
+      <End Role="publicServices" EntitySet="publicServices" />
+      <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
