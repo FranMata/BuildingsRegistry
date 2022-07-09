@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="buildings_registryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="area">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AreaCode" Type="Int32" />
+    <Property Name="CantonCode" Type="Int32" />
+    <Property Name="AreaName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="buildings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BuildingName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Capacity" Type="Int32" />
+    <Property Name="ProvinceCode" Type="Int32" />
+    <Property Name="CantonCode" Type="Int32" />
+    <Property Name="AreaCode" Type="Int32" />
+    <Property Name="PropertyStatus" Type="Int32" />
+    <Property Name="Expiration" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="propertyStatus1" Relationship="Self.FK__buildings__Prope__38996AB5" FromRole="buildings" ToRole="propertyStatus" />
+    <NavigationProperty Name="servicesAssigned" Relationship="Self.FK__servicesA__Build__4222D4EF" FromRole="buildings" ToRole="servicesAssigned" />
+  </EntityType>
+  <EntityType Name="canton">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CantonCode" Type="Int32" />
+    <Property Name="ProvinceCode" Type="Int32" />
+    <Property Name="CantonName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="propertyStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="buildings" Relationship="Self.FK__buildings__Prope__38996AB5" FromRole="propertyStatus" ToRole="buildings" />
+  </EntityType>
+  <EntityType Name="province">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProvinceCode" Type="Int32" />
+    <Property Name="ProvinceName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="publicServices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameService" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="TypeService" Type="Int32" />
+    <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="unit" Relationship="Self.FK__publicSer__TypeS__3F466844" FromRole="publicServices" ToRole="unit" />
+    <NavigationProperty Name="servicesAssigned" Relationship="Self.FK__servicesA__Servi__4316F928" FromRole="publicServices" ToRole="servicesAssigned" />
+  </EntityType>
+  <EntityType Name="servicesAssigned">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BuildingId" Type="Int32" />
+    <Property Name="ServiceId" Type="Int32" />
+    <Property Name="Expiration" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="buildings" Relationship="Self.FK__servicesA__Build__4222D4EF" FromRole="servicesAssigned" ToRole="buildings" />
+    <NavigationProperty Name="publicServices" Relationship="Self.FK__servicesA__Servi__4316F928" FromRole="servicesAssigned" ToRole="publicServices" />
+  </EntityType>
+  <EntityType Name="serviceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="unit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="publicServices" Relationship="Self.FK__publicSer__TypeS__3F466844" FromRole="unit" ToRole="publicServices" />
+  </EntityType>
+  <Association Name="FK__buildings__Prope__38996AB5">
+    <End Role="propertyStatus" Type="Self.propertyStatus" Multiplicity="0..1" />
+    <End Role="buildings" Type="Self.buildings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="propertyStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="buildings">
+        <PropertyRef Name="PropertyStatus" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__servicesA__Build__4222D4EF">
+    <End Role="buildings" Type="Self.buildings" Multiplicity="0..1" />
+    <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="buildings">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="servicesAssigned">
+        <PropertyRef Name="BuildingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__publicSer__TypeS__3F466844">
+    <End Role="unit" Type="Self.unit" Multiplicity="0..1" />
+    <End Role="publicServices" Type="Self.publicServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="unit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="publicServices">
+        <PropertyRef Name="TypeService" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__servicesA__Servi__4316F928">
+    <End Role="publicServices" Type="Self.publicServices" Multiplicity="0..1" />
+    <End Role="servicesAssigned" Type="Self.servicesAssigned" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="publicServices">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="servicesAssigned">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="buildings_registryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="area" EntityType="Self.area" />
+    <EntitySet Name="buildings" EntityType="Self.buildings" />
+    <EntitySet Name="canton" EntityType="Self.canton" />
+    <EntitySet Name="propertyStatus" EntityType="Self.propertyStatus" />
+    <EntitySet Name="province" EntityType="Self.province" />
+    <EntitySet Name="publicServices" EntityType="Self.publicServices" />
+    <EntitySet Name="servicesAssigned" EntityType="Self.servicesAssigned" />
+    <EntitySet Name="serviceType" EntityType="Self.serviceType" />
+    <EntitySet Name="unit" EntityType="Self.unit" />
+    <AssociationSet Name="FK__buildings__Prope__38996AB5" Association="Self.FK__buildings__Prope__38996AB5">
+      <End Role="propertyStatus" EntitySet="propertyStatus" />
+      <End Role="buildings" EntitySet="buildings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__servicesA__Build__4222D4EF" Association="Self.FK__servicesA__Build__4222D4EF">
+      <End Role="buildings" EntitySet="buildings" />
+      <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+    </AssociationSet>
+    <AssociationSet Name="FK__publicSer__TypeS__3F466844" Association="Self.FK__publicSer__TypeS__3F466844">
+      <End Role="unit" EntitySet="unit" />
+      <End Role="publicServices" EntitySet="publicServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK__servicesA__Servi__4316F928" Association="Self.FK__servicesA__Servi__4316F928">
+      <End Role="publicServices" EntitySet="publicServices" />
+      <End Role="servicesAssigned" EntitySet="servicesAssigned" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
