@@ -3,19 +3,12 @@ using BuildingsRegistry.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BuildingsRegistry.Controllers
 {
     public class ServiceController : Controller
     {
-        // GET: Service
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         // GET: Service/GetServiceType/
         public ActionResult GetServiceType()
         {
@@ -79,50 +72,6 @@ namespace BuildingsRegistry.Controllers
                 return RedirectToAction("Index");
             }
             catch(Exception e)
-            {
-                return View();
-            }
-        }
-
-        // GET: Service/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Service/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Service/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Service/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
             {
                 return View();
             }
