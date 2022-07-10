@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Añadir servicio" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddService.aspx.cs" Inherits="BuildingsRegistry.AddService" %>
+﻿<%@ Page Async="true" Title="Añadir servicio" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddService.aspx.cs" Inherits="BuildingsRegistry.AddService" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <p>
     </p>
