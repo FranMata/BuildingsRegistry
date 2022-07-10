@@ -391,6 +391,7 @@
     </Compile>
     <Compile Include="Controllers\BuildingsController.cs" />
     <Compile Include="Controllers\OwnerShipStatusController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\UbicationController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -449,6 +450,9 @@
     <Compile Include="Models\ViewModel\Canton.cs" />
     <Compile Include="Models\ViewModel\OwnershipStatus.cs" />
     <Compile Include="Models\ViewModel\Province.cs" />
+    <Compile Include="Models\ViewModel\Service.cs" />
+    <Compile Include="Models\ViewModel\ServiceType.cs" />
+    <Compile Include="Models\ViewModel\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -477,6 +481,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Buildings\" />
     <Folder Include="Views\OwnerShipStatus\" />
+    <Folder Include="Views\Service\" />
     <Folder Include="Views\Ubication\" />
   </ItemGroup>
   <ItemGroup>
