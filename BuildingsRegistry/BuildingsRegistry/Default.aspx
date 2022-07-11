@@ -34,6 +34,10 @@
     <p>
         <asp:Button ID="SaveB" runat="server" OnClick="SaveB_Click" Text="Guardar" />
     </p>
+    <asp:Label ID="ServiceAsociatedError" runat="server" Text="El servicio ya esta asociado a ese edificio, si desea modificarlo, borrelo y agreguelo de nuevo " Visible="False"></asp:Label>
+    <br />
+    <p ID="ServiceAsociatedError">
+        &nbsp;</p>
 
     
 </asp:Content>
