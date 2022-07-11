@@ -20,5 +20,12 @@ namespace BuildingsRegistry.Utilis
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
             await new HttpClient().PostAsync(url, stringContent);
         }
+
+        public static async Task<string> DeleteRequest(string url)
+        {
+            var resoponse = await new HttpClient().GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            return await resoponse.Content.ReadAsStringAsync();
+        }
+            
     }
 }

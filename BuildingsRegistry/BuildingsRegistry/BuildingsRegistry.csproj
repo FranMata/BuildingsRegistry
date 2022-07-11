@@ -391,6 +391,7 @@
     </Compile>
     <Compile Include="Controllers\BuildingsController.cs" />
     <Compile Include="Controllers\OwnerShipStatusController.cs" />
+    <Compile Include="Controllers\ServiceAsociationController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\UbicationController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -446,6 +447,7 @@
       <DependentUpon>BuildingsData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModel\Area.cs" />
+    <Compile Include="Models\ViewModel\AsociatedService.cs" />
     <Compile Include="Models\ViewModel\Building.cs" />
     <Compile Include="Models\ViewModel\Canton.cs" />
     <Compile Include="Models\ViewModel\OwnershipStatus.cs" />
@@ -481,6 +483,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Buildings\" />
     <Folder Include="Views\OwnerShipStatus\" />
+    <Folder Include="Views\ServiceAsociation\" />
     <Folder Include="Views\Service\" />
     <Folder Include="Views\Ubication\" />
   </ItemGroup>
