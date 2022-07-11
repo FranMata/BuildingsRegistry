@@ -63,7 +63,9 @@ namespace BuildingsRegistry
         }
 
         protected async void SaveB_Click(object sender, EventArgs e)
-        {            
+        {
+            ServiceAsociatedError.Visible = false;
+
             AsociatedService asociatedService = new AsociatedService()
             {
                 BuildingId = Convert.ToInt32(BuildingDD.SelectedValue.ToString()),
@@ -85,8 +87,8 @@ namespace BuildingsRegistry
         {
             if (alreadyAsociated == null)
                 await RequestHelper.PostRequest(_urlAssing + "AddAsociation", asociatedService);
-            //else
-            //TODO: show error
+            else
+                ServiceAsociatedError.Visible = true;
         }
     }
 }
