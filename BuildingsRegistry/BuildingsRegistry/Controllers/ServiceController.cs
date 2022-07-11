@@ -9,6 +9,27 @@ namespace BuildingsRegistry.Controllers
 {
     public class ServiceController : Controller
     {
+        // Service/GetAll
+        public ActionResult GetAll()
+        {
+            List<Service> services = new List<Service>();
+
+            using(buildings_registryEntities bd = new buildings_registryEntities())
+            {
+                bd.publicServices.ToList().ForEach(e =>
+                {
+                    services.Add(new Service()
+                    {
+                        Id = e.Id,
+                        NameService = e.NameService,
+                        TypeService = (int) e.TypeService,
+                        CompanyName = e.CompanyName
+                    });
+                });
+            }
+            return Json(services, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Service/GetServiceType/
         public ActionResult GetServiceType()
         {
